@@ -25,6 +25,7 @@
   "devDependencies": {
     "@types/body-parser": "^1.16.8",
     "@types/bookshelf": "^0.9.7",
+    "@types/boom": "^4.3.8",
     "@types/chai": "^4.0.10",
     "@types/cors": "^2.8.3",
     "@types/dotenv": "^4.0.2",
@@ -54,7 +55,7 @@
     "test": "NODE_ENV=test mocha --recursive test/**/*.test.ts --exit",
     "test:unit": "NODE_ENV=test mocha --recursive test/unit/**/*.test.ts --exit",
     "test:api": "NODE_ENV=test mocha --recursive test/api/**/*.test.ts --exit",
-    "test:watch": "NODE_ENV=test mocha --watch --recursive test/**/*.test.ts --exit", 
+    "test:watch": "NODE_ENV=test mocha --watch --recursive test/**/*.test.ts --exit",
     "seed": "knex seed:run --knexfile knexfile.js",
     "migrate": "knex migrate:latest --knexfile knexfile.js",
     "rollback": "knex migrate:rollback --knexfile knexfile.js",

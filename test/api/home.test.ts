@@ -1,8 +1,7 @@
+import app from '../../src';
 import { expect } from 'chai';
 import * as request from 'supertest';
 import * as HTTPStatus from 'http-status-codes';
-
-import app from '../../src';
 
 describe('Test if api is working', () => {
   it('should return API information', done => {

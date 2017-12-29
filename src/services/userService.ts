@@ -1,11 +1,10 @@
+import * as Boom from 'boom';
 import knex from '../config/db';
-
-import User from '../models/User';
-
+import lang from '../utils/lang';
 import RegisterBody from '../domain/RegisterBody';
 
 /**
- * Register user
+ * Create user
  *
  * @param  {RegisterBody} body
  * @returns Promise
@@ -18,14 +17,38 @@ export function create(body: RegisterBody): Promise<{}> {
 }
 
 /**
+ * Fetch user by id
+ *
  * @param  {number} id
  */
 export function findById(id: number) {
   return knex('users')
     .where('id', '=', id)
     .first()
-    .then((data: {}) => {
-      return { data };
+    .then((user: {}) => {
+      if (!user) {
+        throw Boom.notFound(lang.userNotFound);
+      }
+
+      return { data: user };
+    });
+}
+
+/**
+ * Fetch user by email
+ *
+ * @param  {string} email
+ */
+export function findByEmail(email: string) {
+  return knex('users')
+    .where('email', '=', email)
+    .first()
+    .then((user: {}) => {
+      if (!user) {
+        throw Boom.notFound(lang.userNotFound);
+      }
+
+      return { data: user };
     });
 }
 
@@ -37,7 +60,5 @@ export function findById(id: number) {
 export function fetchAll(): Promise<{}> {
   return knex('users')
     .select()
-    .then((data: {}) => {
-      return { data };
-    });
+    .then((data: {}) => ({ data }));
 }

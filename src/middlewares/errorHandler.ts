@@ -1,6 +1,6 @@
+import { CLIENT_RENEG_LIMIT } from 'tls';
 import * as HttpStatus from 'http-status-codes';
 import { Request, Response, NextFunction } from 'express';
-import { CLIENT_RENEG_LIMIT } from 'tls';
 
 /**
  * Error response middleware for 404 not found. This middleware function should be at the very bottom of the stack.
@@ -32,7 +32,16 @@ export function genericErrorHandler(
   res: Response,
   next: NextFunction
 ): void {
-  console.log('Error ', err);
+  console.log('Error: ', err);
+  if (err.isBoom) {
+    res.status(err.output.statusCode).json({
+      error: {
+        code: err.output.statusCode,
+        message: err.output.payload.message || err.output.payload.error
+      }
+    });
+  }
+
   res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
     error: {
       code: HttpStatus.INTERNAL_SERVER_ERROR,

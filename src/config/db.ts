@@ -1,6 +1,5 @@
-import * as client from 'knex';
-
 import config from './config';
+import * as client from 'knex';
 
 /**
  * Database connection.

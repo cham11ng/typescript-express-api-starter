@@ -7,11 +7,6 @@ export function up(knex) {
     table.increments();
     table.string('name');
     table.string('email').unique();
-    /* table
-      .timestamp('created_at')
-      .notNull()
-      .defaultTo(knex.raw('CURRENT_TIMESTAMP'));
-    table.timestamp('updated_at').notNull(); */
     table.timestamps(true, true);
   });
 }

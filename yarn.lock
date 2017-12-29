@@ -22,6 +22,10 @@
     "@types/knex" "*"
     "@types/lodash" "*"
 
+"@types/boom@^4.3.8":
+  version "4.3.8"
+  resolved "https://registry.yarnpkg.com/@types/boom/-/boom-4.3.8.tgz#73acac4aa33d78b030a7797f4a74b4dfb058d418"
+
 "@types/chai@^4.0.10":
   version "4.0.10"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.0.10.tgz#0eb222c7353adde8e0980bea04165d4d3b6afef3"

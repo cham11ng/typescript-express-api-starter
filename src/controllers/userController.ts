@@ -1,8 +1,7 @@
-import * as HTTPStatus from 'http-status-codes';
-import { Request, Response, NextFunction } from 'express';
-
-import * as userService from '../services/userService';
 import { request } from 'http';
+import * as HTTPStatus from 'http-status-codes';
+import * as userService from '../services/userService';
+import { Request, Response, NextFunction } from 'express';
 
 /**
  * Get list of user

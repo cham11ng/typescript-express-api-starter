@@ -1,7 +1,6 @@
 import * as HTTPStatus from 'http-status-codes';
-import { Request, Response, NextFunction } from 'express';
-
 import * as userService from '../services/userService';
+import { Request, Response, NextFunction } from 'express';
 
 /**
  * Register user
