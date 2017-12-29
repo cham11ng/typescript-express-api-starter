@@ -4,7 +4,9 @@ import { name, version } from '../../package.json';
 dotenv.config();
 
 const isTestEnvironment = process.env.NODE_ENV === 'test';
-const APP_PORT = (isTestEnvironment && 8888) || process.env.APP_PORT || 8080;
+const APP_PORT = isTestEnvironment
+  ? process.env.TEST_APP_PORT
+  : process.env.APP_PORT;
 
 export default {
   app: {
@@ -20,7 +22,9 @@ export default {
       charset: 'utf8',
       user: process.env.DB_USER,
       port: process.env.DB_PORT,
-      database: process.env.DB_NAME,
+      database: isTestEnvironment
+        ? process.env.TEST_DB_NAME
+        : process.env.DB_NAME,
       password: process.env.DB_PASSWORD,
       host: process.env.DB_HOST || '127.0.0.1'
     },

@@ -13,9 +13,7 @@ export function create(body: RegisterBody): Promise<{}> {
   return knex('users')
     .insert({ name: body.name, email: body.email })
     .returning('*')
-    .then((data: {}) => {
-      return data;
-    });
+    .then((data: number[]) => ({ data: data[0] }));
 }
 
 /**

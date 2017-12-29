@@ -11,7 +11,6 @@ describe('Test if api is working', () => {
       .end((err, res) => {
         expect(err).to.equal(null);
         expect(res.status).to.equal(HTTPStatus.OK);
-        
         done();
       });
   });
