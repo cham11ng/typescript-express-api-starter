@@ -10,5 +10,6 @@ router.get('/', homeController.index);
 router.post('/register', authController.register);
 
 router.get('/users', userController.index);
+router.get('/users/:id', userController.show);
 
 export default router;

@@ -7,7 +7,8 @@ import RegisterBody from '../domain/RegisterBody';
 /**
  * Register user
  *
- * @param  {} body
+ * @param  {RegisterBody} body
+ * @returns Promise
  */
 export function create(body: RegisterBody): Promise<{}> {
   return knex('users')
@@ -17,12 +18,25 @@ export function create(body: RegisterBody): Promise<{}> {
 }
 
 /**
+ * @param  {number} id
+ */
+export function findById(id: number) {
+  return knex('users')
+    .where('id', '=', id)
+    .first()
+    .then((data: {}) => {
+      return { data };
+    });
+}
+
+/**
  * Fetch all user
+ *
+ * @returns Promise
  */
 export function fetchAll(): Promise<{}> {
-  return knex
+  return knex('users')
     .select()
-    .from('users')
     .then((data: {}) => {
       return { data };
     });
