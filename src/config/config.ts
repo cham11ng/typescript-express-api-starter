@@ -22,10 +22,8 @@ export default {
       : process.env.TEST_DB_CLIENT || 'mssql',
     connection: {
       charset: 'utf8',
-      user: isTestEnvironment
-        ? process.env.TEST_DB_USER
-        : process.env.DB_USER,
-      port: process.env.DB_PORT,
+      user: isTestEnvironment ? process.env.TEST_DB_USER : process.env.DB_USER,
+      port: isTestEnvironment ? process.env.TEST_DB_PORT : process.env.DB_PORT,
       database: isTestEnvironment
         ? process.env.TEST_DB_NAME
         : process.env.DB_NAME,
