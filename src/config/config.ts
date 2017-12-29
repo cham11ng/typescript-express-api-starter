@@ -17,10 +17,14 @@ export default {
     baseUrl: process.env.APP_URL || 'http://127.0.0.1:8000/api'
   },
   database: {
-    client: process.env.DB_CLIENT || 'mssql',
+    client: isTestEnvironment
+      ? process.env.DB_CLIENT
+      : process.env.TEST_DB_CLIENT || 'mssql',
     connection: {
       charset: 'utf8',
-      user: process.env.DB_USER,
+      user: isTestEnvironment
+        ? process.env.TEST_DB_USER
+        : process.env.DB_USER,
       port: process.env.DB_PORT,
       database: isTestEnvironment
         ? process.env.TEST_DB_NAME
