@@ -9,8 +9,8 @@ const APP_PORT = isTestEnvironment
 module.exports = {
   development: {
     client: isTestEnvironment
-      ? process.env.DB_CLIENT
-      : process.env.TEST_DB_CLIENT || 'mssql',
+      ? process.env.TEST_DB_CLIENT
+      : process.env.DB_CLIENT || 'mssql',
     connection: {
       charset: 'utf8',
       user: isTestEnvironment ? process.env.TEST_DB_USER : process.env.DB_USER,
