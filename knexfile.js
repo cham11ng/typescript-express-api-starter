@@ -34,7 +34,11 @@ module.exports = {
       host: process.env.DB_HOST || '127.0.0.1'
     },
     migrations: {
-      tableName: 'migrations'
+      tableName: 'migrations',
+      directory: './src/migrations'
+    },
+    seeds: {
+      directory: './src/seeds'
     }
   }
 };
