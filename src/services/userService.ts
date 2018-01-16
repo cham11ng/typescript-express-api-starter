@@ -1,4 +1,5 @@
 import * as Boom from 'boom';
+
 import knex from '../config/db';
 import lang from '../utils/lang';
 import UpdateBody from '../domain/UpdateBody';
@@ -11,11 +12,18 @@ import RegisterBody from '../domain/RegisterBody';
  * @returns Promise
  */
 export function create(body: RegisterBody): Promise<{}> {
-  const userInfo = { name: body.name, email: body.email };
+  console.log(body);
+
   return knex('users')
-    .insert(userInfo)
+    .insert({
+      name: body.name,
+      email: body.email,
+      username: body.username,
+      cipher_text: body.cipherText
+    })
     .returning('*')
-    .then((data: number[]) => ({ data: data[0] }));
+    .then((data: number[]) => ({ data: data[0] }))
+    .catch((err: {}) => err);
 }
 
 /**

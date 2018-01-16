@@ -2,7 +2,7 @@ interface RegisterBody {
   name: string;
   email: string;
   username: string;
-  data: string;
+  cipherText: string;
 }
 
 export default RegisterBody;
