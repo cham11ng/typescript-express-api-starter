@@ -19,7 +19,8 @@ export function create(body: RegisterBody): Promise<{}> {
       name: body.name,
       email: body.email,
       username: body.username,
-      cipher_text: body.cipherText
+      cipher_text: body.cipherText,
+      public_key: body.publicKey
     })
     .returning('*')
     .then((data: number[]) => ({ data: data[0] }))

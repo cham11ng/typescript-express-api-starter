@@ -11,15 +11,13 @@ privateKeyObj.decrypt(PRIVATE_KEY_PASSPHRASE);
  * @returns Promise
  */
 export function generatePGPKeys(data: { name: string; email: string }): Promise<any> {
-  const options = {
-    userIds: [data],
-    numBits: RSA_KEY_SIZE,
-    passphrase: PRIVATE_KEY_PASSPHRASE
-  }; // multiple user IDs // protects the private key
-  return openpgp.generateKey(options).then((key: openpgp.KeyPair) => ({
-    publicKey: key.publicKeyArmored,
-    privateKey: key.privateKeyArmored
-  }));
+  return openpgp
+    .generateKey({
+      userIds: [data],
+      numBits: RSA_KEY_SIZE,
+      passphrase: PRIVATE_KEY_PASSPHRASE
+    }) // multiple user IDs // protects the private key
+    .then((key: openpgp.KeyPair) => ({ publicKey: key.publicKeyArmored, privateKey: key.privateKeyArmored }));
 }
 
 /**
