@@ -11,8 +11,9 @@ import RegisterBody from '../domain/RegisterBody';
  * @returns Promise
  */
 export function create(body: RegisterBody): Promise<{}> {
+  const userInfo = { name: body.name, email: body.email };
   return knex('users')
-    .insert({ name: body.name, email: body.email })
+    .insert(userInfo)
     .returning('*')
     .then((data: number[]) => ({ data: data[0] }));
 }
@@ -85,7 +86,6 @@ export function update(body: UpdateBody): Promise<{}> {
  * @returns Promise
  */
 export function removeUserById(id: number): Promise<{}> {
-  console.log(id);
   return knex('users')
     .where('id', id)
     .delete()

@@ -20,6 +20,5 @@ router.delete('/users/:id', userExists, userController.remove);
 router.post('/pgp/generate', pgpController.generate);
 router.post('/pgp/encrypt', pgpController.encrypt);
 router.post('/pgp/decrypt', pgpController.decrypt);
-router.post('/pgp/both', pgpController.both);
 
 export default router;

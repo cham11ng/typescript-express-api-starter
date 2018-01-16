@@ -1,7 +1,7 @@
 import * as HTTPStatus from 'http-status-codes';
 import { Request, Response, NextFunction } from 'express';
 
-import * as pgpService from '../services/pgpService';
+import * as pgp from '../utils/pgp';
 
 /**
  * Controller for handeling pgp keys generate request
@@ -12,8 +12,9 @@ import * as pgpService from '../services/pgpService';
  * @returns void
  */
 export function generate(req: Request, res: Response, next: NextFunction): void {
-  pgpService
-    .generatePGPKeys()
+  const { email, name } = req.body;
+  pgp
+    .generatePGPKeys({ email, name })
     .then((data: {}) => res.status(HTTPStatus.OK).send({ data }))
     .catch((err: {}) => next(err));
 }
@@ -27,7 +28,7 @@ export function generate(req: Request, res: Response, next: NextFunction): void 
  * @returns void
  */
 export function encrypt(req: Request, res: Response, next: NextFunction): void {
-  pgpService
+  pgp
     .encrypt(req.body.plainText)
     .then((data: {}) => res.status(HTTPStatus.OK).send({ data }))
     .catch((err: {}) => next(err));
@@ -42,23 +43,8 @@ export function encrypt(req: Request, res: Response, next: NextFunction): void {
  * @returns void
  */
 export function decrypt(req: Request, res: Response, next: NextFunction): void {
-  pgpService
+  pgp
     .decrypt(req.body.cipherText)
-    .then((data: {}) => res.status(HTTPStatus.OK).send({ data }))
-    .catch((err: {}) => next(err));
-}
-
-/**
- * Request for handeling request both request i.e. encrypt and decrypt
- *
- * @param  {Request} req
- * @param  {Response} res
- * @param  {NextFunction} next
- * @returns void
- */
-export function both(req: Request, res: Response, next: NextFunction): void {
-  pgpService
-    .all(req.body.plainText)
     .then((data: {}) => res.status(HTTPStatus.OK).send({ data }))
     .catch((err: {}) => next(err));
 }

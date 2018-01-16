@@ -10,9 +10,9 @@ privateKeyObj.decrypt(PRIVATE_KEY_PASSPHRASE);
  *
  * @returns Promise
  */
-export function generatePGPKeys(): Promise<any> {
+export function generatePGPKeys(data: { name: string; email: string }): Promise<any> {
   const options = {
-    userIds: [{ name: 'Sagar Chamling', email: 'sagarchamling@lftechnology.com' }],
+    userIds: [data],
     numBits: RSA_KEY_SIZE,
     passphrase: PRIVATE_KEY_PASSPHRASE
   }; // multiple user IDs // protects the private key
@@ -45,8 +45,6 @@ export function encrypt(data: string): Promise<any> {
  * @returns Promise
  */
 export function decrypt(encryptedData: string): Promise<any> {
-  console.log(encryptedData);
-
   return openpgp
     .decrypt({
       publicKeys: openpgp.key.readArmored(PUBLIC_KEY).keys,
@@ -54,25 +52,4 @@ export function decrypt(encryptedData: string): Promise<any> {
       privateKey: privateKeyObj
     }) // parse armored message // for verification (optional) // for decryption
     .then((plaintext: { data: string }) => ({ plaintext: plaintext.data }));
-}
-
-/**
- * Encrypt and then decrypt the given data
- *
- * @param  {string} data
- * @returns Promise
- */
-export async function all(data: string): Promise<any> {
-  try {
-    const encrypted = await encrypt(data)
-      .then((cipherData: { ciphertext: string }) => cipherData.ciphertext)
-      .catch((err: {}) => err);
-    const decrypted = await decrypt(encrypted)
-      .then((plainData: { plaintext: string }) => plainData.plaintext)
-      .catch((err: {}) => err);
-
-    return { cihpertext: encrypted, plaintext: decrypted };
-  } catch (err) {
-    throw Error(err);
-  }
 }
