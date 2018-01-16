@@ -71,3 +71,6 @@ typings/
 
 *.pyc
 __pycache__
+
+# Files that store private keys
+keys/
