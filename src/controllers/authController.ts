@@ -20,10 +20,9 @@ export async function register(req: Request, res: Response, next: NextFunction) 
       .then((data: { publicKey: string; privateKey: string }) => data)
       .catch((err: {}) => next(err));
 
-    const privateKeyObj = pgp.decryptPrivateKey(keys.privateKey, PRIVATE_KEY_PASSPHRASE);
-
     createFile('./keys/' + req.body.username, keys.privateKey);
 
+    const privateKeyObj = pgp.decryptPrivateKey(keys.privateKey, PRIVATE_KEY_PASSPHRASE);
     const encryptedData = await pgp
       .encrypt(keys.publicKey, privateKeyObj, req.body.text)
       .then((data: { ciphertext: string }) => data.ciphertext)
@@ -31,7 +30,7 @@ export async function register(req: Request, res: Response, next: NextFunction) 
 
     userService
       .create({ ...req.body, encryptedData, publicKey: keys.publicKey })
-      .then((result: {}) => res.status(HTTPStatus.CREATED).json(result))
+      .then((data: {}) => res.status(HTTPStatus.CREATED).json({ data }))
       .catch((error: {}) => next(error));
   } catch (err) {
     next(err);

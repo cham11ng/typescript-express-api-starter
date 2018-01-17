@@ -21,7 +21,7 @@ export function create(body: RegisterBody): Promise<{}> {
       encrypted_data: body.encryptedData
     })
     .returning('*')
-    .then((data: number[]) => ({ data: data[0] }))
+    .then((data: number[]) => data[0])
     .catch((err: {}) => err);
 }
 
@@ -39,7 +39,7 @@ export function findById(id: number) {
         throw Boom.notFound(lang.userNotFound);
       }
 
-      return { data: user };
+      return user;
     });
 }
 
@@ -57,7 +57,7 @@ export function findByEmail(email: string) {
         throw Boom.notFound(lang.userNotFound);
       }
 
-      return { data: user };
+      return user;
     });
 }
 
