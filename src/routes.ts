@@ -1,6 +1,5 @@
 import { Router } from 'express';
 
-import * as pgpService from './services/pgpService';
 import * as pgpController from './controllers/pgpController';
 import * as homeController from './controllers/homeController';
 import * as userController from './controllers/userController';

@@ -12,15 +12,13 @@ import RegisterBody from '../domain/RegisterBody';
  * @returns Promise
  */
 export function create(body: RegisterBody): Promise<{}> {
-  console.log(body);
-
   return knex('users')
     .insert({
       name: body.name,
       email: body.email,
       username: body.username,
-      cipher_text: body.cipherText,
-      public_key: body.publicKey
+      public_key: body.publicKey,
+      encrypted_data: body.encryptedData
     })
     .returning('*')
     .then((data: number[]) => ({ data: data[0] }))

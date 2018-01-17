@@ -7,7 +7,7 @@ import lang from '../utils/lang';
  * @param  {string} path
  * @param  {string} data
  */
-export async function createFile(path: string, data: string) {
+export function createFile(path: string, data: string) {
   fs.writeFile(path, data, (err: {}) => console.log(err ? err : lang.fileCreated));
 }
 

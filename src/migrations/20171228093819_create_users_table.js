@@ -8,7 +8,7 @@ export function up(knex) {
     table.string('name');
     table.string('username').unique();
     table.string('email').unique();
-    table.string('cipher_text', 4000);
+    table.string('encrypted_data', 4000);
     table.string('public_key', 4000);
     table.timestamps(true, true);
   });

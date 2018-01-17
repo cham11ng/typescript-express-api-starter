@@ -1,21 +1,21 @@
 import { expect } from 'chai';
-import * as fileService from '../../src/services/fileService';
+import { createFile, readFile, deleteFile } from '../../src/utils/file';
 
 const hello = '# Hello World';
 const filePath = './keys/test.md';
 
 describe('File services testing, createFile, removeFile and readFile', () => {
   before(async () => {
-    fileService.createFile(filePath, hello);
+    createFile(filePath, hello);
   });
 
   it('should read file', async () => {
-    const content = fileService.readFile(filePath);
+    const content = readFile(filePath);
 
     expect(content).to.be.equal(hello);
   });
 
   it('should delete file', () => {
-    fileService.deleteFile(filePath);
+    deleteFile(filePath);
   });
 });

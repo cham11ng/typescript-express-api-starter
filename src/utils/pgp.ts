@@ -1,21 +1,37 @@
 import * as openpgp from 'openpgp';
 
-import { PUBLIC_KEY, PRIVATE_KEY, PRIVATE_KEY_PASSPHRASE, RSA_KEY_SIZE } from '../constants/constants';
+/**
+ * Decrypt private key from it's respective passpharse
+ *
+ * @param  {string} privateKey
+ * @param  {string} privateKeyPassphrase
+ * @returns openpgp.key.Key
+ */
+export function decryptPrivateKey(privateKey: string, privateKeyPassphrase: string): openpgp.key.Key {
+  const privateKeyObj = openpgp.key.readArmored(privateKey).keys[0];
+  privateKeyObj.decrypt(privateKeyPassphrase);
 
-const privateKeyObj = openpgp.key.readArmored(PRIVATE_KEY).keys[0];
-privateKeyObj.decrypt(PRIVATE_KEY_PASSPHRASE);
+  return privateKeyObj;
+}
 
 /**
  * Generate PGP public key and private key
  *
+ * @param  {{name:string;email:string}} data
+ * @param  {string} privateKeyPassphrase
+ * @param  {number=4096} rsaKeySize
  * @returns Promise
  */
-export function generatePGPKeys(data: { name: string; email: string }): Promise<any> {
+export function generatePGPKeys(
+  data: { name: string; email: string },
+  privateKeyPassphrase: string,
+  rsaKeySize: number = 4096
+): Promise<any> {
   return openpgp
     .generateKey({
       userIds: [data],
-      numBits: RSA_KEY_SIZE,
-      passphrase: PRIVATE_KEY_PASSPHRASE
+      numBits: rsaKeySize,
+      passphrase: privateKeyPassphrase
     }) // multiple user IDs // protects the private key
     .then((key: openpgp.KeyPair) => ({ publicKey: key.publicKeyArmored, privateKey: key.privateKeyArmored }));
 }
@@ -23,14 +39,16 @@ export function generatePGPKeys(data: { name: string; email: string }): Promise<
 /**
  * Encrypt the given data
  *
+ * @param  {string} publicKey
+ * @param  {openpgp.key.Key} privateKeyObj
  * @param  {string} data
  * @returns Promise
  */
-export function encrypt(data: string): Promise<any> {
+export function encrypt(publicKey: string, privateKeyObj: openpgp.key.Key, data: string): Promise<any> {
   return openpgp
     .encrypt({
       data,
-      publicKeys: openpgp.key.readArmored(PUBLIC_KEY).keys,
+      publicKeys: openpgp.key.readArmored(publicKey).keys,
       privateKeys: privateKeyObj
     }) // input as String (or Uint8Array) // for encryption // for signing (optional)
     .then((ciphertext: { data: string }) => ({ ciphertext: ciphertext.data }));
@@ -39,13 +57,15 @@ export function encrypt(data: string): Promise<any> {
 /**
  * Decrypt given data
  *
+ * @param  {string} publicKey
+ * @param  {openpgp.key.Key} privateKeyObj
  * @param  {string} encryptedData
  * @returns Promise
  */
-export function decrypt(encryptedData: string): Promise<any> {
+export function decrypt(publicKey: string, privateKeyObj: openpgp.key.Key, encryptedData: string): Promise<any> {
   return openpgp
     .decrypt({
-      publicKeys: openpgp.key.readArmored(PUBLIC_KEY).keys,
+      publicKeys: openpgp.key.readArmored(publicKey).keys,
       message: openpgp.message.readArmored(encryptedData),
       privateKey: privateKeyObj
     }) // parse armored message // for verification (optional) // for decryption
